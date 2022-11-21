@@ -1,0 +1,277 @@
+swagger: "2.0"
+info:
+  description: "API Docs for Demo User Management Service"
+  version: "1.0.0"
+  title: "Demo User Management Service"
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+    description: >-
+      Enter the access token with the `Bearer: ` prefix, e.g. "Bearer \<token\>".
+paths:
+  /user/get:
+    get:
+      tags:
+       - "User"
+      security:
+       - Bearer: []
+      summary: "Get all users"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "Show all users"
+          schema:
+            type: "array"
+            items:
+              type: "object"
+              properties:
+                username:
+                  type: "string"
+                role:
+                  type: "string"
+                info:
+                  type: "string"
+        401:
+          description: "Unauthorized"
+        500:
+          description: "Internal Server Error"
+  /user/get/{username}:
+    get:
+      tags:
+       - "User"
+      security:
+       - Bearer: []
+      summary: "Get a single user"
+      parameters:
+      - name: "username"
+        in: "path"
+        required: true
+        type: "string"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "Show user"
+          schema:
+            type: "object"
+            properties:
+              username:
+                type: "string"
+              role:
+                type: "string"
+              info:
+                type: "string"
+        401:
+          description: "Unauthorized"
+        404:
+          description: "Not Found"
+        500:
+          description: "Internal Server Error"
+  /user/create:
+    post:
+      tags:
+       - "Admin Only"
+      security:
+       - Bearer: []
+      summary: "Create a new user"
+      parameters:
+      - in: "body"
+        name: "user data"
+        required: true
+        schema:
+          type: "object"
+          required:
+           - "username"
+           - "password"
+           - "role"
+          properties:
+            username:
+              type: "string"
+            password:
+              type: "string"
+            role:
+              type: "string"
+            info:
+              type: "string"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        201:
+          description: "Created"
+          schema:
+            type: "object"
+            properties:
+              success:
+                type: "boolean"
+        400:
+          description: "Bad Request"
+        401:
+          description: "Unauthorized"
+        422:
+          description: "Unprocessable Entity"
+        500:
+          description: "Internal Server Error"
+  /user/update-password:
+    post:
+      tags:
+       - "Admin Only"
+      security:
+       - Bearer: []
+      summary: "Update user's password"
+      parameters:
+      - in: "body"
+        name: "update data"
+        required: true
+        schema:
+          type: "object"
+          required:
+           - "username"
+           - "password"
+          properties:
+            username:
+              type: "string"
+            password:
+              type: "string"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "Status"
+          schema:
+            type: "object"
+            properties:
+              success:
+                type: "boolean"
+        400:
+          description: "Bad Request"
+        401:
+          description: "Unauthorized"
+        404:
+          description: "Not Found"
+        500:
+          description: "Internal Server Error"
+  /user/update-role:
+    post:
+      tags:
+       - "Admin Only"
+      security:
+       - Bearer: []
+      summary: "Update user's role"
+      parameters:
+      - in: "body"
+        name: "update data"
+        required: true
+        schema:
+          type: "object"
+          required:
+           - "username"
+           - "role"
+          properties:
+            username:
+              type: "string"
+            role:
+              type: "string"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "Status"
+          schema:
+            type: "object"
+            properties:
+              success:
+                type: "boolean"
+        400:
+          description: "Bad Request"
+        401:
+          description: "Unauthorized"
+        404:
+          description: "Not Found"
+        500:
+          description: "Internal Server Error"
+  /user/update-info:
+    post:
+      tags:
+       - "Admin Only"
+      security:
+       - Bearer: []
+      summary: "Update user's info"
+      parameters:
+      - in: "body"
+        name: "update data"
+        required: true
+        schema:
+          type: "object"
+          required:
+           - "username"
+           - "info"
+          properties:
+            username:
+              type: "string"
+            info:
+              type: "string"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "Status"
+          schema:
+            type: "object"
+            properties:
+              success:
+                type: "boolean"
+        400:
+          description: "Bad Request"
+        401:
+          description: "Unauthorized"
+        404:
+          description: "Not Found"
+        500:
+          description: "Internal Server Error"
+  /user/delete:
+    post:
+      tags:
+       - "Admin Only"
+      security:
+       - Bearer: []
+      summary: "Delete a user"
+      parameters:
+      - in: "body"
+        name: "username"
+        required: true
+        schema:
+          type: "object"
+          required:
+           - "username"
+          properties:
+            username:
+              type: "string"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "Status"
+          schema:
+            type: "object"
+            properties:
+              success:
+                type: "boolean"
+        400:
+          description: "Bad Request"
+        401:
+          description: "Unauthorized"
+        500:
+          description: "Internal Server Error"
